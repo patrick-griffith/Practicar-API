@@ -1,0 +1,41 @@
+{
+    "name": "laravel/lumen",
+    "description": "The Laravel Lumen Framework.",
+    "keywords": ["framework", "laravel", "lumen"],
+    "license": "MIT",
+    "type": "project",
+    "minimum-stability": "dev",
+    "require": {
+        "php": ">=5.5.9",
+        "laravel/lumen-framework": "5.*",
+        "vlucas/phpdotenv": "~2.2",
+        "dingo/api": "1.0.x@dev",
+        "tymon/jwt-auth": "^1.0@dev",
+        "palanik/lumen-cors": "dev-master",        
+        "sendgrid/sendgrid": "~4.0",        
+        "marcelgwerder/laravel-api-handler": "dev-master",
+        "superbalist/laravel-google-cloud-storage": "^1.0@dev",
+        "guzzlehttp/guzzle": "^6.2@dev",
+        "fabpot/goutte": "^4.0@dev"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "~4.0",
+        "fzaninotto/faker": "~1.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "App\\": "app/"
+        },
+        "classmap": [
+            "database/"
+        ]
+    },
+    "autoload-dev": {
+        "classmap": [
+            "tests/"
+        ]
+    },
+    "config": {
+        "preferred-install": "dist"
+    }
+}
