@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateAttemptsTable extends Migration
+class CreateAnswersTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,17 +13,17 @@ class CreateAttemptsTable extends Migration
      */
     public function up()
     {
-        Schema::create('attempts', function (Blueprint $table) {
+        Schema::create('answers', function (Blueprint $table) {
             $table->increments('id');
             $table->unsignedInteger('rounds_id')->nullable();
-            $table->unsignedInteger('questions_id');
+            $table->unsignedInteger('conjugations_id');
             $table->string('answer');
             $table->unsignedTinyInteger('score');
             $table->decimal('seconds_elapsed');
             $table->timestamps();
             $table->softDeletes();
             $table->index('rounds_id');
-            $table->index('questions_id');
+            $table->index('conjugations_id');
         });
     }
 
@@ -34,6 +34,6 @@ class CreateAttemptsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('attempts');
+        Schema::dropIfExists('answers');
     }
 }

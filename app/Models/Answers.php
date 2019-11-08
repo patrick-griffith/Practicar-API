@@ -13,10 +13,11 @@ class Answers extends Model
     
     protected $hidden = ['updated_at','created_at', 'deleted_at'];
     
-    protected $fillable = ['questions_id','spanish'];
+    protected $fillable = ['rounds_id','conjugations_id','answer','score','seconds_elapsed'];
 
     protected $casts = [
-        'questions_id' => 'integer'
+        'rounds_id' => 'integer',
+        'conjugations_id' => 'integer'
     ];
     
   

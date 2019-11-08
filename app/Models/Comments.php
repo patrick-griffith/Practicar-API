@@ -13,11 +13,11 @@ class Comments extends Model
     
     protected $hidden = ['updated_at','created_at', 'deleted_at'];
     
-    protected $fillable = ['members_id','questions_id','groups_id', 'content'];
+    protected $fillable = ['members_id','conjugations_id','groups_id', 'content'];
 
     protected $casts = [
         'members_id' => 'integer',
-        'questions_id' => 'integer',
+        'conjugations_id' => 'integer',
         'groups_id' => 'integer'
     ];
     

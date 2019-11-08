@@ -36,7 +36,8 @@ $api->version('v1', function ($api) {
 
 //Members Routes - Open to all authenticated members.
 $api->version('v1', function ($api) {
-    $api->group(['middleware' => ['api.auth'], 'providers' => 'jwt'], function ($api) {
+    //$api->group(['middleware' => ['api.auth'], 'providers' => 'jwt'], function ($api) {
+    $api->group([], function ($api) { //replace this soon... for now just have it be open
         
         //Members       
         $api->post('/logout', 'App\Http\Controllers\MembersController@logout');        
@@ -58,6 +59,12 @@ $api->version('v1', function ($api) {
         $api->get('/groupsInvitations/{id}','App\Http\Controllers\GroupsInvitationsController@get');
         $api->delete('/groupsInvitations/{id}','App\Http\Controllers\GroupsInvitationsController@delete');
         $api->put('/groupsInvitations/{id}','App\Http\Controllers\GroupsInvitationsController@update');
+
+        //Verbs
+        $api->get('/verbs','App\Http\Controllers\VerbsController@find');
+        $api->get('/verbs/{spanish}','App\Http\Controllers\VerbsController@get');
+        $api->get('/questions','App\Http\Controllers\VerbsController@get_questions');
+        
     });
 });
 

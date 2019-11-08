@@ -16,13 +16,13 @@ class CreateCommentsTable extends Migration
         Schema::create('comments', function (Blueprint $table) {
             $table->increments('id');
             $table->unsignedInteger('members_id');
-            $table->unsignedInteger('questions_id')->nullable(); //only if left on a question
+            $table->unsignedInteger('conjugations_id')->nullable(); //only if left on a question
             $table->unsignedInteger('groups_id')->nullable(); //only if left in a group
             $table->text('content');
             $table->timestamps();
             $table->softDeletes();
             $table->index('members_id');
-            $table->index('questions_id');
+            $table->index('conjugations_id');
             $table->index('groups_id');
         });
     }
