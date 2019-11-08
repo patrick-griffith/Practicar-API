@@ -14,5 +14,13 @@ class Moods extends Model
     protected $hidden = ['updated_at','created_at', 'deleted_at'];
     
     protected $fillable = ['name'];
+
+    /**
+    * @Relation
+    */	  
+    public function tenses()
+    {
+        return $this->hasMany('App\Models\Tenses', 'moods_id', 'id');
+    }
   
 }

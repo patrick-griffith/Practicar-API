@@ -19,4 +19,12 @@ class Tenses extends Model
         'moods_id' => 'integer',
     ];
   
+    /**
+    * @Relation
+    */	  
+    public function mood()
+    {
+        return $this->belongsTo('App\Models\Moods', 'moods_id', 'id');
+    }
+
 }

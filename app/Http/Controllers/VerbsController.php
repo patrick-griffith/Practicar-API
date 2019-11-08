@@ -10,6 +10,8 @@ use ApiHandler;
 use App\Traits\FileTraits;
 use App\Models\Verbs;
 use App\Models\Conjugations;
+use App\Models\Moods;
+use App\Models\Persons;
 
 class VerbsController extends Controller
 {
@@ -45,7 +47,7 @@ class VerbsController extends Controller
     public function get_questions(Request $request)
     {
         //get default results
-        $conjugations= Conjugations::where('id', '>', 0)->inRandomOrder()->limit(20);
+        $conjugations= Conjugations::where('id', '>', 0)->whereNotNull('english')->inRandomOrder()->limit(20);
       
         //filter based on QS
         $conjugations = ApiHandler::parseMultiple($conjugations);
@@ -53,6 +55,27 @@ class VerbsController extends Controller
         return $conjugations->getResult();
     } 
 
+    public function get_moods(Request $request)
+    {
+        //get default results
+        $moods= Moods::where('id', '>', 0);
+      
+        //filter based on QS
+        $moods = ApiHandler::parseMultiple($moods);
+      
+        return $moods->getResult();
+    } 
+
+    public function get_persons(Request $request)
+    {
+        //get default results
+        $persons= Persons::where('id', '>', 0);
+      
+        //filter based on QS
+        $persons = ApiHandler::parseMultiple($persons);
+      
+        return $persons->getResult();
+    } 
     
 
 }

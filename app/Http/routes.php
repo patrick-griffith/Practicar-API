@@ -64,6 +64,8 @@ $api->version('v1', function ($api) {
         $api->get('/verbs','App\Http\Controllers\VerbsController@find');
         $api->get('/verbs/{spanish}','App\Http\Controllers\VerbsController@get');
         $api->get('/questions','App\Http\Controllers\VerbsController@get_questions');
+        $api->get('/moods','App\Http\Controllers\VerbsController@get_moods');
+        $api->get('/persons','App\Http\Controllers\VerbsController@get_persons');
         
     });
 });

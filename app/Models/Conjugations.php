@@ -20,5 +20,28 @@ class Conjugations extends Model
         'persons_id' => 'integer',
         'tenses_id' => 'integer',
     ];
-  
+
+    /**
+    * @Relation
+    */	  
+    public function verb()
+    {
+        return $this->belongsTo('App\Models\Verbs', 'verbs_id', 'id');
+    }
+ 
+    /**
+    * @Relation
+    */	  
+    public function tense()
+    {
+        return $this->belongsTo('App\Models\Tenses', 'tenses_id', 'id');
+    }
+
+    /**
+    * @Relation
+    */	  
+    public function person()
+    {
+        return $this->belongsTo('App\Models\Persons', 'persons_id', 'id');
+    }
 }

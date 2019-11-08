@@ -20,9 +20,9 @@ class DatabaseSeeder extends Seeder
     {
         Model::unguard();
 
-        //$this->call('PopulateVerbs');
-        //$this->call('FetchEnglish');
-        $this->call('FetchConjugations');
+        //$this->call('PopulateVerbs');        
+        //$this->call('FetchConjugations');
+        $this->call('FetchEnglish');
 
         Model::reguard();
     }
@@ -97,15 +97,73 @@ class FetchConjugations extends Seeder{
 class FetchEnglish extends Seeder{
     public function run(){
 
-        $client = new Client();
-        $guzzleClient = new GuzzleClient(array(
-            'timeout' => 60,
-        ));
-        $client->setClient($guzzleClient);
+        $tenses = [
+            'presentIndicative' => 0,
+            'preteritIndicative' => 1,
+            'imperfectIndicative' => 2,
+            'conditionalIndicative' => 3,
+            'futureIndicative' => 4,
+            'presentSubjunctive' => 5,
+            'imperfectSubjunctive' => 6,
+            'imperfectSubjunctive2' => 7,
+            'futureSubjunctive' => 8,
+            'imperative' => 9,
+            'negativeImperative' => 10,
+            'presentContinuous' => 11,
+            'pastContinuous' => 12, //12 && 13
+            //'preteritContinuous' => 12,
+            //'imperfectContinuous' => 13,
+            'conditionalContinuous' => 14,
+            'futureContinuous' => 15,
+            'presentPerfect' => 16,
+            'preteritPerfect' => 17,
+            'pastPerfect' => 18,
+            'conditionalPerfect' => 19,
+            'futurePerfect' => 20,
+            'presentPerfectSubjunctive' => 21,
+            'pastPerfectSubjunctive' => 22,
+            'futurePerfectSubjunctive' => 23,
+        ];
 
-        $crawler = $client->request('GET', 'https://translate1.spanishdict.com/api/v1/verb?q=to%20go&source=en');
+        $verbs = Verbs::where('id', '>=', 1)
+            ->where('id','<', 4)
+            ->where('english', 'not like', '%,%')
+            ->where('english', 'not like', '%/%')
+            ->get();
+        foreach($verbs as $verb){
 
-        print_r($crawler);
+            $json_string = file_get_contents('https://translate1.spanishdict.com/api/v1/verb?q=' . urlencode($verb->english) . '&source=en');
+            //$json_string = '{"params":{"q":"to go","source":"en"},"data":{"id":22713,"infinitive":"go","gerund":"going","pastParticiple":"gone","matchedConjugation":"go","reason":"exact match after removing \"to\" or subject pronoun","isReflexiveVariation":false,"presentParticiple":"going","paradigms":{"presentIndicative":[{"word":"I go"},{"word":"you go"},{"word":"he/she goes"},{"word":"we go"},{"word":"you go"},{"word":"they go"}],"preteritIndicative":[{"word":"I went"},{"word":"you went"},{"word":"he/she went"},{"word":"we went"},{"word":"you went"},{"word":"they went"}],"imperfectIndicative":null,"conditionalIndicative":null,"futureIndicative":[{"word":"I will go"},{"word":"you will go"},{"word":"he/she will go"},{"word":"we will go"},{"word":"you will go"},{"word":"they will go"}],"presentContinuous":[{"word":"I am going"},{"word":"you are going"},{"word":"he/she is going"},{"word":"we are going"},{"word":"you are going"},{"word":"they are going"}],"pastContinuous":[{"word":"I was going"},{"word":"you were going"},{"word":"he/she was going"},{"word":"we were going"},{"word":"you were going"},{"word":"they were going"}],"futureContinuous":[{"word":"I will be going"},{"word":"you will be going"},{"word":"he/she will be going"},{"word":"we will be going"},{"word":"you will be going"},{"word":"they will be going"}],"presentSubjunctive":null,"futureSubjunctive":null,"imperfectSubjunctive":null,"imperfectSubjunctive2":null,"presentPerfect":[{"word":"I have gone"},{"word":"you have gone"},{"word":"he/she has gone"},{"word":"we have gone"},{"word":"you have gone"},{"word":"they have gone"}],"pastPerfect":[{"word":"I had gone"},{"word":"you had gone"},{"word":"he/she had gone"},{"word":"we had gone"},{"word":"you had gone"},{"word":"they had gone"}],"preteritPerfect":null,"futurePerfect":[{"word":"I will have gone"},{"word":"you will have gone"},{"word":"he/she will have gone"},{"word":"we will have gone"},{"word":"you will have gone"},{"word":"they will have gone"}],"conditionalPerfect":null,"presentPerfectContinuous":[{"word":"I have been going"},{"word":"you have been going"},{"word":"he/she has been going"},{"word":"we have been going"},{"word":"you have been going"},{"word":"they have been going"}],"futurePerfectContinuous":[{"word":"I will have been going"},{"word":"you will have been going"},{"word":"he/she will have been going"},{"word":"we will have been going"},{"word":"you will have been going"},{"word":"they will have been going"}],"pastPerfectContinuous":[{"word":"I had been going"},{"word":"you had been going"},{"word":"he/she had been going"},{"word":"we had been going"},{"word":"you had been going"},{"word":"they had been going"}],"presentPerfectSubjunctive":null,"pastPerfectSubjunctive":null,"futurePerfectSubjunctive":null,"imperative":[null,{"word":"go"},null,{"word":"let's go"},{"word":"go"},null],"negativeImperative":[null,{"word":"don't go"},null,{"word":"let's not go"},{"word":"don't go"},null]}}}';
+
+            $json = json_decode($json_string);
+
+            $gerund = $json->data->infinitive; //go
+            $gerund = $json->data->gerund; //going
+            $gerund = $json->data->pastParticiple; //gone
+            $gerund = $json->data->presentParticiple; //going
+            
+
+            foreach($json->data->paradigms as $key => $words){
+                //echo $key."\n";
+                if(array_key_exists($key, $tenses)){
+                    $tenses_id = $tenses[$key] + 1;
+                    for($i = 0; $i <= 5; $i++){
+                        if($words[$i] && $words[$i]->word){
+                            //echo $words[$i]->word."\n";
+                            $persons_id = $i + 1;
+                            
+                            DB::table('conjugations')
+                                ->whereNull('english')
+                                ->where('verbs_id', $verb->id)
+                                ->where('persons_id', $persons_id)
+                                ->where('tenses_id', $tenses_id)
+                                ->update(['english' => $words[$i]->word]);
+                        }
+                    }
+                }
+                //echo "\n";
+            }
+        }
 
     }
 }
