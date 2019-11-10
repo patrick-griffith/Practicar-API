@@ -32,6 +32,13 @@ $api->version('v1', function ($api) {
         //GroupsInvitations
         $api->get('/groupsInvitations/{id}/accept/{token}','App\Http\Controllers\GroupsInvitationsController@accept');
       
+
+        $api->get('/verbs','App\Http\Controllers\VerbsController@find');
+        $api->get('/verbs/{spanish}','App\Http\Controllers\VerbsController@get');
+        $api->get('/questions','App\Http\Controllers\VerbsController@get_questions');
+        $api->get('/moods','App\Http\Controllers\VerbsController@get_moods');
+        $api->get('/persons','App\Http\Controllers\VerbsController@get_persons');
+
     });
 });
 
@@ -62,12 +69,7 @@ $api->version('v1', function ($api) {
         $api->delete('/groupsInvitations/{id}','App\Http\Controllers\GroupsInvitationsController@delete');
         $api->put('/groupsInvitations/{id}','App\Http\Controllers\GroupsInvitationsController@update');
 
-        //Verbs
-        $api->get('/verbs','App\Http\Controllers\VerbsController@find');
-        $api->get('/verbs/{spanish}','App\Http\Controllers\VerbsController@get');
-        $api->get('/questions','App\Http\Controllers\VerbsController@get_questions');
-        $api->get('/moods','App\Http\Controllers\VerbsController@get_moods');
-        $api->get('/persons','App\Http\Controllers\VerbsController@get_persons');
+        //Verbs        
         $api->get('/answers/me','App\Http\Controllers\VerbsController@my_answers');
         $api->post('/answers','App\Http\Controllers\VerbsController@create_answer');
         
