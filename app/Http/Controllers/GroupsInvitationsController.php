@@ -135,7 +135,7 @@ class OrganizationsInvitationsController extends Controller
 
         //Send the invitation via email
         $message = View::make('emails.inviteMemberToTeam')->with(array( 'invitation' => $invitation, 'inviter' => $inviter ))->render();
-        $this->emailSend($inviter->first_name. ' has invited you to their team!', $invitation->email, $message);
+        $this->emailSend($inviter->username. ' has invited you to their team!', $invitation->email, $message);
         
 
         return $invitation;
@@ -164,8 +164,7 @@ class OrganizationsInvitationsController extends Controller
         if(!$member){
             //Need to create the member.
             $member = Members::create([
-                'first_name' => '',
-                'last_name' => '',
+                'username' => '',
                 'email' => $invitation->email,
                 'password' => ''
             ]);

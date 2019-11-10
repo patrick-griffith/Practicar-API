@@ -4,7 +4,7 @@
     $link = url('/organizationsInvitations/' . $invitation->id . '/accept/' . $invitation->token);
 ?>
 
-<p>You’ve just been invited by {{ $inviter->first_name . ' ' . $inviter->last_name }} to join the team {{ $invitation->organization->name }}.</p>
+<p>You’ve just been invited by {{ $inviter->username }} to join the team {{ $invitation->organization->name }}.</p>
 
 <p>To accept this invitation <a href="{{ $link }}">click here</a> or copy/paste the following link:</p>
 

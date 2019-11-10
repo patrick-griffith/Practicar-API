@@ -16,7 +16,7 @@ class Members extends Model implements Authenticatable
     protected $table = 'members';
     protected $guarded = ['id'];
     protected $hidden = ['password', 'pivot', 'created_at', 'updated_at', 'forget_token', 'remember_token', 'deleted_at'];
-    protected $fillable = ['first_name', 'last_name', 'email', 'email_updates'];
+    protected $fillable = ['username', 'email', 'email_updates'];
     protected $appends = array('email_obfuscate');
 
     protected $casts = [

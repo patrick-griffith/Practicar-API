@@ -193,7 +193,7 @@ class MembersController extends Controller
             return null;
         }
 
-        if($member->first_name){
+        if($member->username){
             abort(404, 'An initial password has already been set for this member.');
             return null;
         }else{
@@ -219,9 +219,9 @@ class MembersController extends Controller
         //validation
         try{
             $this->validate($request, [
-                'first_name' => 'sometimes|required|max:255',
-                'last_name' => 'sometimes|required|max:255',	
+                'username' => 'sometimes|required|max:255|unique:members,username,'.$id,
                 'email' => 'sometimes|required|email|max:255|unique:members,email,'.$id,
+                'password' => 'sometimes|required|min:5'
             ]);
         }catch( \Illuminate\Validation\ValidationException $e ){
             return $e->getResponse();
@@ -232,8 +232,14 @@ class MembersController extends Controller
             abort(404, 'member not found.');
             return null;
         }
+
+        if($request['password'] && !$member->username){
+            $member->password = app('hash')->make($request->input('password'));
+            $member->save();
+        }
            
         $member->update($request->all());        
+        
 
         return $member;
     }
