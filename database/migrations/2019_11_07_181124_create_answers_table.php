@@ -15,6 +15,7 @@ class CreateAnswersTable extends Migration
     {
         Schema::create('answers', function (Blueprint $table) {
             $table->increments('id');
+            $table->unsignedInteger('members_id');
             $table->unsignedInteger('rounds_id')->nullable();
             $table->unsignedInteger('conjugations_id');
             $table->string('answer');
@@ -23,6 +24,7 @@ class CreateAnswersTable extends Migration
             $table->timestamps();
             $table->softDeletes();
             $table->index('rounds_id');
+            $table->index('members_id');
             $table->index('conjugations_id');
         });
     }

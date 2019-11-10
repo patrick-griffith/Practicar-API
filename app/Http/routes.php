@@ -37,8 +37,8 @@ $api->version('v1', function ($api) {
 
 //Members Routes - Open to all authenticated members.
 $api->version('v1', function ($api) {
-    //$api->group(['middleware' => ['api.auth'], 'providers' => 'jwt'], function ($api) {
-    $api->group([], function ($api) { //replace this soon... for now just have it be open
+    $api->group(['middleware' => ['api.auth'], 'providers' => 'jwt'], function ($api) {
+    //$api->group([], function ($api) { //replace this soon... for now just have it be open
            
 
         //Members       
@@ -68,6 +68,8 @@ $api->version('v1', function ($api) {
         $api->get('/questions','App\Http\Controllers\VerbsController@get_questions');
         $api->get('/moods','App\Http\Controllers\VerbsController@get_moods');
         $api->get('/persons','App\Http\Controllers\VerbsController@get_persons');
+        $api->get('/answers/me','App\Http\Controllers\VerbsController@my_answers');
+        $api->post('/answers','App\Http\Controllers\VerbsController@create_answer');
         
     });
 });

@@ -6,12 +6,14 @@ use Dingo\Api\Http\Request;
 use Dingo\Api\Routing\Helpers;
 use Symfony;
 use ApiHandler;
+use Auth;
 
 use App\Traits\FileTraits;
 use App\Models\Verbs;
 use App\Models\Conjugations;
 use App\Models\Moods;
 use App\Models\Persons;
+use App\Models\Answers;
 
 class VerbsController extends Controller
 {
@@ -26,6 +28,14 @@ class VerbsController extends Controller
         $verbs = ApiHandler::parseMultiple($verbs);
       
         return $verbs->getResult();
+    } 
+
+    public function my_answers(Request $request)
+    {
+        //get default results
+        $answers = Answers::where('members_id', Auth::user()->id);
+        $answers = ApiHandler::parseMultiple($answers);
+        return $answers->getResult();
     } 
 
     public function get(Request $request, $spanish)
@@ -75,6 +85,26 @@ class VerbsController extends Controller
         $persons = ApiHandler::parseMultiple($persons);
       
         return $persons->getResult();
+    } 
+
+    public function create_answer(Request $request)
+    {       
+        //validation
+        try{
+            $this->validate($request, [
+                'answer' => 'required|max:255',
+                'seconds_elapsed' => 'required',
+                'conjugations_id' => 'required|exists:conjugations,id',
+            ]);
+        }catch( \Illuminate\Validation\ValidationException $e ){
+            return $e->getResponse();
+        }                          
+        
+        $request['members_id'] = Auth::user()->id;
+
+        $answer = Answers::create($request->all());
+        return $answer;
+
     } 
     
 
