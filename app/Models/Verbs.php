@@ -18,6 +18,14 @@ class Verbs extends Model
     protected $casts = [
         'is_irregular' => 'boolean'
     ];
+
+    /**
+    * @Relation
+    */	  
+    public function conjugations()
+    {
+        return $this->hasMany('App\Models\Conjugations');
+    }
     
   
 }

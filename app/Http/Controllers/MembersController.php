@@ -132,13 +132,12 @@ class MembersController extends Controller
         //validation
         try{
             $this->validate($request, [
-                'first_name' => 'required|max:255',
-                'last_name' => 'required|max:255',	
-                'email' => 'required|email|max:255|unique:members'
+                'email' => 'required|email|max:255|unique:members',
+                'email_updates' => 'required|sometimes|boolean'
             ]);
         }catch( \Illuminate\Validation\ValidationException $e ){
             return $e->getResponse();
-        }                                
+        }                                        
 
         $member = Members::create($request->all());                        
 
@@ -153,7 +152,7 @@ class MembersController extends Controller
         //$this->emailSend('Please confirm your email address.', $member->email, $message);
 
         $message = View::make('emails.memberWelcome')->with(array( 'member'=> $member ))->render();
-        $this->emailSend('Welcome to Some Writing Tools!', $member->email, $message);
+        $this->emailSend('bienvenidos a PRACTICAR', $member->email, $message);
         
         return $member;
     }
@@ -194,12 +193,11 @@ class MembersController extends Controller
             return null;
         }
 
-        if($member->is_claimed){
+        if($member->first_name){
             abort(404, 'An initial password has already been set for this member.');
             return null;
         }else{
             $member->password = app('hash')->make($request->input('password'));
-            $member->is_claimed = true;
             $member->save();
         }
 

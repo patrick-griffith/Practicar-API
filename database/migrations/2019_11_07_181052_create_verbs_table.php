@@ -17,8 +17,10 @@ class CreateVerbsTable extends Migration
             $table->increments('id');
             $table->string('spanish')->unique();;
             $table->string('english');
+            $table->string('translate');
             $table->unsignedInteger('usage');
             $table->boolean('is_irregular')->default(0);
+            $table->boolean('is_active')->default(1);
             $table->timestamps();
             $table->softDeletes();
         });

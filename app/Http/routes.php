@@ -20,6 +20,7 @@ $api->version('v1', function ($api) {
     $api->group([], function ($api) {
         
         $api->post('/authenticate', 'App\Http\Controllers\AuthenticateController@backend');
+        $api->post('/members','App\Http\Controllers\MembersController@create'); 
 
         //Members        
         $api->get('/members/{id}/password/{value}','App\Http\Controllers\MembersController@checkCurrentPassword');
@@ -38,7 +39,8 @@ $api->version('v1', function ($api) {
 $api->version('v1', function ($api) {
     //$api->group(['middleware' => ['api.auth'], 'providers' => 'jwt'], function ($api) {
     $api->group([], function ($api) { //replace this soon... for now just have it be open
-        
+           
+
         //Members       
         $api->post('/logout', 'App\Http\Controllers\MembersController@logout');        
         $api->get('/me', 'App\Http\Controllers\MembersController@me');
@@ -72,8 +74,7 @@ $api->version('v1', function ($api) {
 
 //SuperAdmin routes
 $api->version('v1', function ($api) {
-    $api->group(['middleware' => ['api.auth','superadmin'], 'providers' => 'jwt'], function ($api) {
-        $api->post('/members','App\Http\Controllers\MembersController@create');    
+    $api->group(['middleware' => ['api.auth','superadmin'], 'providers' => 'jwt'], function ($api) {        
         $api->put('/members/{id}/restore','App\Http\Controllers\MembersController@restore');
         $api->put('/groups/{id}/restore','App\Http\Controllers\GroupsController@restore');
         $api->put('/groupsInvitations/{id}/restore','App\Http\Controllers\GroupsInvitationsController@restore');        

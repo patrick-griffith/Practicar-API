@@ -47,7 +47,7 @@ class VerbsController extends Controller
     public function get_questions(Request $request)
     {
         //get default results
-        $conjugations= Conjugations::where('id', '>', 0)->whereNotNull('english')->inRandomOrder()->limit(20);
+        $conjugations= Conjugations::where('id', '>', 0)->where('verbs_id', '<', 205)->whereNotNull('english')->inRandomOrder()->limit(20);
       
         //filter based on QS
         $conjugations = ApiHandler::parseMultiple($conjugations);

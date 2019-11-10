@@ -1,14 +1,12 @@
 @include('emails.includes.standard-head')
 
-<p>Welcome to <em>Some Writing Tools</em>, {{ $member->first_name }}. We're happy you're here!</p>
+<p>welcome to <em>PRACTICAR</em>. i’m happy you're here!</p>
 
 @if($member->passwordRaw)
-    <p>Your temporary password is <strong>{{ $member->passwordRaw }}</strong> - you will be required to change this after logging in for the first time.</p>
-    <p>Please use the email address <strong>{{ $member->email }}</strong> to login.</p>
+    <p><a href="https://practicar.app/login">LOGIN HERE</a> with login info:</p>
+    <p>email: <strong>{{ $member->email }}</strong><br/>
+    password: <strong>{{ $member->passwordRaw }}</strong> - you will be required to change this after logging in for the first time</p>
 @endif
 
-<p>Here’s a brief overview of how to get started. And of course, email me with any questions!</p>
-
-<p>TODO</p>
 
 @include('emails.includes.standard-foot')
