@@ -17,7 +17,8 @@ class CreateMembersTable extends Migration
             $table->increments('id');
             $table->string('username')->unique();
             $table->string('email')->unique();
-            $table->string('password');            
+            $table->string('password');       
+            $table->text('settings');
             $table->unsignedInteger('image_files_id')->nullable();
             $table->boolean('is_admin')->default(0);
             $table->boolean('email_updates')->default(0);

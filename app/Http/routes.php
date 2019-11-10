@@ -52,6 +52,7 @@ $api->version('v1', function ($api) {
         $api->post('/logout', 'App\Http\Controllers\MembersController@logout');        
         $api->get('/me', 'App\Http\Controllers\MembersController@me');
         $api->put('/members/{id}','App\Http\Controllers\MembersController@update');
+        $api->put('/members/settings/{id}','App\Http\Controllers\MembersController@updateSettings');
         $api->put('/members/{id}/set-custom-password','App\Http\Controllers\MembersController@setCustomPassword'); //for first time password set, which is used to complete account setup.
         $api->delete('/members/{id}','App\Http\Controllers\MembersController@delete');        
 

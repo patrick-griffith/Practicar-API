@@ -244,6 +244,41 @@ class MembersController extends Controller
         return $member;
     }
 
+    public function updateSettings(Request $request, $id)
+    {
+        if(Auth::user()->id != $id && Auth::user()->role != 'super'){                        
+            return response()->json(['error' => 'Your account does not have sufficient permissions to perform this action.'], 403);
+        }        
+
+        //validation
+        try{
+            $this->validate($request, [
+                'tenses' => 'required',
+                'persons' => 'required',
+                'regulars' => 'required'
+            ]);
+        }catch( \Illuminate\Validation\ValidationException $e ){
+            return $e->getResponse();
+        }        
+        
+        $member = Members::find($id);
+        if (!$member) {
+            abort(404, 'member not found.');
+            return null;
+        }
+
+        $member->settings = [
+            'tenses' => $request['tenses'],
+            'persons' => $request['persons'],
+            'regulars' => $request['regulars'],
+        ];
+           
+        $member->save();
+        
+
+        return $member;
+    }
+
 
     /**
      * @param Request $request
