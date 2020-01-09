@@ -23,9 +23,20 @@ class DatabaseSeeder extends Seeder
         //$this->call('PopulateVerbs');        
         //$this->call('FetchConjugations');
         //$this->call('FetchEnglish');
-        $this->call('FillMissingTenses');
+        //$this->call('FillMissingTenses');
+        //$this->call('FillImperative');
 
         Model::reguard();
+    }
+}
+
+class FillImperative extends Seeder{
+    public function run(){
+        $conjugations = Conjugations::whereIn('tenses_id',[10,11])->where('persons_id',2)->whereNotNull('english')->get();
+        foreach($conjugations as $c){
+            Conjugations::where('verbs_id',$c->verbs_id)->where('tenses_id',$c->tenses_id)->whereNull('english')->update(['english' => $c->english]);
+        }
+
     }
 }
 
